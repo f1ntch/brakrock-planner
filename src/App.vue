@@ -12,16 +12,7 @@
     <div class="spotify-section">
       <h2 class="spotify-title">🎵 Festival Vibes Playlist</h2>
       <div class="spotify-container">
-        <iframe 
-          style="border-radius:12px" 
-          src="https://open.spotify.com/embed/playlist/6cqFV1jSiUZTPJQlSJd7CM?utm_source=generator" 
-          width="100%" 
-          height="352" 
-          frameBorder="0" 
-          allowfullscreen="" 
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-          loading="lazy">
-        </iframe>
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6cqFV1jSiUZTPJQlSJd7CM?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
       </div>
     </div>
 
@@ -86,6 +77,14 @@
           <span v-if="overlaps.length > 0" class="overlap-count">
             ⚠️ {{ overlaps.length }} overlap(s)
           </span>
+          <button 
+            v-if="plannedBands.length > 0" 
+            @click="clearAllBands" 
+            class="clear-btn"
+            title="Clear all bands"
+          >
+            🗑️ Clear All
+          </button>
         </div>
 
         <div 
@@ -101,6 +100,7 @@
 
           <div v-if="plannedBands.length === 0" class="empty-planner">
             <p>🎵 Drag bands here!</p>
+            <p>Your selections will be saved automatically.</p>
           </div>
 
           <div 
@@ -183,6 +183,9 @@ export default {
       return overlaps
     }
   },
+  mounted() {
+    this.loadPlannedBands()
+  },
   methods: {
     onDragStart(event, band) {
       event.dataTransfer.setData('text/plain', JSON.stringify(band))
@@ -204,11 +207,37 @@ export default {
         // Check if band is already in planner
         if (!this.plannedBands.find(b => b.id === band.id)) {
           this.plannedBands.push(band)
+          this.savePlannedBands()
         }
       }
     },
     removeBand(index) {
       this.plannedBands.splice(index, 1)
+      this.savePlannedBands()
+    },
+    clearAllBands() {
+      if (confirm('Are you sure you want to clear all planned bands?')) {
+        this.plannedBands = []
+        this.savePlannedBands()
+      }
+    },
+    savePlannedBands() {
+      try {
+        localStorage.setItem('brakrock-planned-bands', JSON.stringify(this.plannedBands))
+      } catch (error) {
+        console.error('Failed to save to localStorage:', error)
+      }
+    },
+    loadPlannedBands() {
+      try {
+        const saved = localStorage.getItem('brakrock-planned-bands')
+        if (saved) {
+          this.plannedBands = JSON.parse(saved)
+        }
+      } catch (error) {
+        console.error('Failed to load from localStorage:', error)
+        this.plannedBands = []
+      }
     },
     parseTime(timeStr) {
       const [hours, minutes] = timeStr.split(':').map(Number)

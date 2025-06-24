@@ -272,11 +272,29 @@ body {
   margin-bottom: 15px;
   font-size: 0.85rem;
   color: #b0b0b0;
+  align-items: center;
 }
 
 .overlap-count {
   color: #ff6b6b;
   font-weight: 600;
+}
+
+.clear-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.clear-btn:hover {
+  background: #ff5252;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 1200px) {
