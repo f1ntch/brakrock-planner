@@ -8,6 +8,23 @@
       <p>Planner – Saturday, August 2, 2025</p>
     </div>
 
+    <!-- Spotify Playlist Section -->
+    <div class="spotify-section">
+      <h2 class="spotify-title">🎵 Festival Vibes Playlist</h2>
+      <div class="spotify-container">
+        <iframe 
+          style="border-radius:12px" 
+          src="https://open.spotify.com/embed/playlist/6cqFV1jSiUZTPJQlSJd7CM?utm_source=generator" 
+          width="100%" 
+          height="352" 
+          frameBorder="0" 
+          allowfullscreen="" 
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+
     <div class="lanes-container">
       <!-- Woodstage Lane -->
       <div class="stage-lane">
